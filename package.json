@@ -1,7 +1,6 @@
 {
   "name": "aibuddy-mcp",
   "version": "0.1.0",
-  "private": true,
   "description": "MCP server and CLI that let Claude, Cursor, Codex and other agents generate images, video and music with AIBuddy.",
   "bin": {
     "aibuddy-mcp": "bin/aibuddy-mcp.js"
@@ -14,10 +13,28 @@
   ],
   "scripts": {
     "test": "node --test test/*.test.js",
-    "start": "node bin/aibuddy-mcp.js serve"
+    "start": "node bin/aibuddy-mcp.js serve",
+    "prepublishOnly": "npm test"
   },
   "engines": {
     "node": ">=18"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ThomasWDev/aibuddyapi.git",
+    "directory": "packages/aibuddy-mcp"
+  },
+  "homepage": "https://denvermobileappdeveloper.com/aibuddy-api/mcp",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "image-generation",
+    "video-generation",
+    "music-generation",
+    "claude",
+    "cursor",
+    "codex"
+  ]
 }
