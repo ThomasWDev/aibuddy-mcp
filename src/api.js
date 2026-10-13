@@ -47,6 +47,8 @@ function createApiClient({ apiKey, baseUrl, fetchImpl = globalThis.fetch, timeou
       // blocks requests with no User-Agent (API_V2_DOCUMENTATION.md § WAF).
       'X-Requested-With': 'AIBuddy-MCP',
       'User-Agent': `AIBuddy-MCP/${VERSION}`,
+      // Lets the gateway count this client's traffic (aibuddyapi#3686).
+      'x-client-surface': 'mcp',
     };
     if (auth) headers['X-AIBuddy-API-Key'] = apiKey;
     if (body !== undefined) headers['Content-Type'] = 'application/json';
