@@ -14,6 +14,7 @@ test('requests carry the key and the WAF allow-list headers', async () => {
   assert.equal(h['X-Requested-With'], 'AIBuddy-MCP');
   assert.equal(h['User-Agent'], `AIBuddy-MCP/${VERSION}`);
   assert.equal(h['Content-Type'], 'application/json');
+  assert.equal(h['x-client-surface'], 'mcp', 'gateway attribution needs the explicit surface (aibuddyapi#3686)');
   assert.equal(calls[0].url, `${DEFAULT_BASE_URL}/v2/image/generate`);
 });
 
@@ -22,6 +23,7 @@ test('list_models is public: no key needed and none sent', async () => {
   await createApiClient({ fetchImpl }).listModels();
   assert.equal(calls[0].headers['X-AIBuddy-API-Key'], undefined);
   assert.equal(calls[0].headers['Content-Type'], undefined);
+  assert.equal(calls[0].headers['x-client-surface'], 'mcp', 'public calls are attributed too');
 });
 
 test('a missing key fails before the network with the signup hint', async () => {

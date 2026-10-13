@@ -1,6 +1,6 @@
 {
   "name": "aibuddy-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server and CLI that let Claude, Cursor, Codex and other agents generate images, video and music with AIBuddy.",
   "bin": {
     "aibuddy-mcp": "bin/aibuddy-mcp.js"
