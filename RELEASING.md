@@ -14,8 +14,15 @@ default branch is what an unpinned install gets, so `main` must stay green.
    `npm_config_cache=$(mktemp -d) npx -y github:ThomasWDev/aibuddy-mcp#v<version> --version`
    prints the new version, and `... models` lists image, video and music models.
 
-## Confirming filter after real use
+## Confirming real use
 
-Inference/v2 Lambda logs carry `User-Agent: AIBuddy-MCP/<version>` for every call
-this package makes. A grep for `AIBuddy-MCP` that returns lines means real
-traffic is arriving.
+There is no working usage signal yet. The API logs a client's User-Agent only
+when it blocks a request as abuse, and spend rows for image, video and music
+carry no client surface. ThomasWDev/aibuddyapi#3686 adds an `mcp` surface. Once
+that ships and this client sends `x-client-surface: mcp`, run this in
+CloudWatch Logs Insights on `/aws/lambda/aibuddy-api-production-inference`:
+
+    filter @message like /PROVIDER_SPEND/ and @message like /surface=mcp/ | stats count(*)
+
+The count should be non-zero after real use. As a control, the same query with
+`surface=external_automation` must be non-zero.
