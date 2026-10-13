@@ -22,9 +22,13 @@ AIBuddy apps use. No provider keys and no other accounts.
 You need Node 18+ and an AIBuddy API key from
 <https://denvermobileappdeveloper.com/aibuddy-api>.
 
-Until the package is on npm, run it from a checkout:
-`/absolute/path/to/aibuddyapi/packages/aibuddy-mcp/bin/aibuddy-mcp.js`. Once published, replace
-`"command": "node", "args": ["<path>"]` with `"command": "npx", "args": ["-y", "aibuddy-mcp"]`.
+Install straight from GitHub — `npx` fetches and runs it, nothing to clone:
+
+```bash
+npx -y github:ThomasWDev/aibuddy-mcp models
+```
+
+Pin a release with `github:ThomasWDev/aibuddy-mcp#v0.1.0`.
 
 **Claude Desktop** — Settings → Developer → Edit Config (`claude_desktop_config.json`):
 
@@ -32,8 +36,8 @@ Until the package is on npm, run it from a checkout:
 {
   "mcpServers": {
     "aibuddy": {
-      "command": "node",
-      "args": ["/absolute/path/to/aibuddy-mcp/bin/aibuddy-mcp.js"],
+      "command": "npx",
+      "args": ["-y", "github:ThomasWDev/aibuddy-mcp"],
       "env": { "AIBUDDY_API_KEY": "ab_live_...", "AIBUDDY_OUTPUT_DIR": "~/Pictures/AIBuddy" }
     }
   }
@@ -43,7 +47,7 @@ Until the package is on npm, run it from a checkout:
 **Claude Code**
 
 ```bash
-claude mcp add aibuddy -e AIBUDDY_API_KEY=ab_live_... -- node /absolute/path/to/aibuddy-mcp/bin/aibuddy-mcp.js
+claude mcp add aibuddy -e AIBUDDY_API_KEY=ab_live_... -- npx -y github:ThomasWDev/aibuddy-mcp
 ```
 
 **Cursor** — `~/.cursor/mcp.json`, same `mcpServers` block as Claude Desktop.
@@ -55,8 +59,8 @@ claude mcp add aibuddy -e AIBUDDY_API_KEY=ab_live_... -- node /absolute/path/to/
   "servers": {
     "aibuddy": {
       "type": "stdio",
-      "command": "node",
-      "args": ["/absolute/path/to/aibuddy-mcp/bin/aibuddy-mcp.js"],
+      "command": "npx",
+      "args": ["-y", "github:ThomasWDev/aibuddy-mcp"],
       "env": { "AIBUDDY_API_KEY": "ab_live_..." }
     }
   }
@@ -67,8 +71,8 @@ claude mcp add aibuddy -e AIBUDDY_API_KEY=ab_live_... -- node /absolute/path/to/
 
 ```toml
 [mcp_servers.aibuddy]
-command = "node"
-args = ["/absolute/path/to/aibuddy-mcp/bin/aibuddy-mcp.js"]
+command = "npx"
+args = ["-y", "github:ThomasWDev/aibuddy-mcp"]
 env = { AIBUDDY_API_KEY = "ab_live_..." }
 ```
 
@@ -77,12 +81,12 @@ Then ask: *"make a 16:9 hero image of a lighthouse at dusk, then turn it into a 
 ## CLI
 
 ```bash
-aibuddy-mcp models
-aibuddy-mcp image "a lighthouse at dusk, oil painting" --aspect 16:9 --out ./art
-aibuddy-mcp edit room.jpg "furnish in warm modern style"
-aibuddy-mcp video "slow drone push-in over the lighthouse" --image art/image-1.png --wait 300
-aibuddy-mcp music "calm piano for a product demo" --instrumental --wait 300
-aibuddy-mcp task task_video_abc123
+npx -y github:ThomasWDev/aibuddy-mcp models
+npx -y github:ThomasWDev/aibuddy-mcp image "a lighthouse at dusk, oil painting" --aspect 16:9 --out ./art
+npx -y github:ThomasWDev/aibuddy-mcp edit room.jpg "furnish in warm modern style"
+npx -y github:ThomasWDev/aibuddy-mcp video "slow drone push-in over the lighthouse" --image art/image-1.png --wait 300
+npx -y github:ThomasWDev/aibuddy-mcp music "calm piano for a product demo" --instrumental --wait 300
+npx -y github:ThomasWDev/aibuddy-mcp task task_video_abc123
 ```
 
 Add `--json` for machine-readable output. Exit codes: `0` ok, `1` the API refused, `2` bad arguments.
@@ -106,5 +110,4 @@ No runtime dependencies. Diagnostics go to stderr; stdout carries protocol bytes
 
 ```bash
 npm test                     # from this directory
-npm run test:aibuddy-mcp     # from the repository root
 ```

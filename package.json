@@ -22,8 +22,7 @@
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ThomasWDev/aibuddyapi.git",
-    "directory": "packages/aibuddy-mcp"
+    "url": "https://github.com/ThomasWDev/aibuddy-mcp.git"
   },
   "homepage": "https://denvermobileappdeveloper.com/aibuddy-api/mcp",
   "keywords": [
@@ -36,5 +35,8 @@
     "claude",
     "cursor",
     "codex"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/ThomasWDev/aibuddy-mcp/issues"
+  }
 }

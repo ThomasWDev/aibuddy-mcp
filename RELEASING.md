@@ -1,31 +1,20 @@
 # Releasing aibuddy-mcp
 
-The install docs and the landing page at `/aibuddy-api/mcp` (Denver site) both
-tell users to run `npx -y aibuddy-mcp`. That works only once this package is on
-npm, so a release is the gate for the page.
+Users run it straight from this repository:
+`npx -y github:ThomasWDev/aibuddy-mcp`. There is no registry step; the
+default branch is what an unpinned install gets, so `main` must stay green.
 
-## Waiting on the operator
+## Release steps
 
-| Needed | Actor | Done-check |
-|---|---|---|
-| An npm login on the publishing machine | Operator, interactively: `npm login` | `npm whoami` prints a username |
+1. In a PR, bump `version` in `package.json`, run `npm test`, merge.
+2. Tag the merge commit and push the tag:
+   `git tag v<version> <sha> && git push origin v<version>`.
+   Users who pin `github:ThomasWDev/aibuddy-mcp#v<version>` get exactly that.
+3. Verify from a clean cache, not your checkout:
+   `npm_config_cache=$(mktemp -d) npx -y github:ThomasWDev/aibuddy-mcp#v<version> --version`
+   prints the new version, and `... models` lists image, video and music models.
 
-An agent cannot do this step: it needs the account password and 2FA.
-
-## Release steps (after the login)
-
-1. On an up-to-date `main`, from `packages/aibuddy-mcp`:
-   `npm publish`. `prepublishOnly` runs the test suite first, so a red tree cannot publish.
-2. Verify the published bytes, not the publish command's exit code:
-   - `npm view aibuddy-mcp version` prints the `package.json` version.
-   - `npx -y aibuddy-mcp models` lists image, video and music models.
-3. Release the landing page: ThomasWDev/denvermobileappdeveloper10#3550 is
-   held with `HOLD —` in its title. Update its branch, drop the hold, merge,
-   deploy, then confirm that `https://denvermobileappdeveloper.com/aibuddy-api/mcp`
-   returns 200 (it returns 302 until then).
-4. Later releases: bump `version` in `package.json` in the release PR, then repeat steps 1–2.
-
-## Confirming filter after first real use
+## Confirming filter after real use
 
 Inference/v2 Lambda logs carry `User-Agent: AIBuddy-MCP/<version>` for every call
 this package makes. A grep for `AIBuddy-MCP` that returns lines means real
