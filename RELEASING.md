@@ -16,13 +16,17 @@ default branch is what an unpinned install gets, so `main` must stay green.
 
 ## Confirming real use
 
-There is no working usage signal yet. The API logs a client's User-Agent only
-when it blocks a request as abuse, and spend rows for image, video and music
-carry no client surface. ThomasWDev/aibuddyapi#3686 adds an `mcp` surface. Once
-that ships and this client sends `x-client-surface: mcp`, run this in
-CloudWatch Logs Insights on `/aws/lambda/aibuddy-api-production-inference`:
+Every v2 request the gateway serves writes one line,
+`REQUEST_SURFACE endpoint=<route> surface=<client> rid=<id>`
+(ThomasWDev/aibuddyapi#3686, live since 2026-10-13). This client sends
+`x-client-surface: mcp` from v0.1.1, so its calls read `surface=mcp`. Run this
+in CloudWatch Logs Insights on `/aws/lambda/aibuddy-api-production-inference`:
 
-    filter @message like /PROVIDER_SPEND/ and @message like /surface=mcp/ | stats count(*)
+    fields @message
+    | filter @message like /REQUEST_SURFACE/
+    | parse @message 'surface=* ' as surface
+    | stats count(*) by surface
 
-The count should be non-zero after real use. As a control, the same query with
-`surface=external_automation` must be non-zero.
+A non-zero `mcp` row means real traffic. Other rows, such as
+`external_automation` and `unknown`, are present on any normal day and serve
+as the control that the query works.
