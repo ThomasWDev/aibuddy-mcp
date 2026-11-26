@@ -111,3 +111,7 @@ No runtime dependencies. Diagnostics go to stderr; stdout carries protocol bytes
 ```bash
 npm test                     # from this directory
 ```
+
+## Community
+
+Questions about the tools or the API: join the Discord server at https://discord.gg/y52ZYCaKA5. Product page: https://aibuddy.life/
